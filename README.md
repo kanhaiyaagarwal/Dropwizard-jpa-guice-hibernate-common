@@ -1,0 +1,1 @@
+# Dropwizard-jpa-guice-hibernate-common
