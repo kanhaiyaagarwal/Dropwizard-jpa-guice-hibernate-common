@@ -1,0 +1,14 @@
+*.iml
+*.ipr
+*.iws
+build
+.idea
+.sonar
+.DS_Store
+.idea/
+logs/
+*.pyc
+out/
+classes
+.idea/codeStyleSettings.xml
+target/
