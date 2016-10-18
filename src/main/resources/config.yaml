@@ -24,12 +24,40 @@ dataSourceFactory:
     charSet: UTF-8
     hibernate.dialect: org.hibernate.dialect.MySQLDialect  #org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate.hbm2ddl.auto: update
+  maxWaitForConnection: 1s
+  validationQuery: "/* MyService Health Check */ SELECT 1"
+  minSize: 8
+  maxSize: 32
+  checkConnectionWhileIdle: false
 
-#databaseConfiguration:
-#  driverClass: org.hsqldb.jdbc.JDBCDriver
-#  url: jdbc:hsqldb:mem:testdb
-#  properties:
-#    hibernate.dialect : org.hibernate.dialect.HSQLDialect
-#    hibernate.show_sql : true
-#    hibernate.hbm2ddl.auto : update
-#    hibernate.archive.autodetection: class, hbm
+azkabanClientConfiguration:
+  httpUrl: http://beta.azkaban.rboomerang.com:8081
+  userName: azkaban_ocd
+  password: Azkaban_0CD
+
+jerseyClient:
+    #The maximum idle time for a connection, once established.
+  timeout: 512ms
+    #The size of the work queue of the pool used for asynchronous requests.
+    #Additional threads will be spawn only if the queue is reached its maximum size.
+  workQueueSize: 16
+
+quartz:
+  org.quartz.jobStore.class : org.quartz.impl.jdbcjobstore.JobStoreTX
+  org.quartz.jobStore.driverDelegateClass : org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+  org.quartz.jobStore.tablePrefix : QRTZ_
+  org.quartz.jobStore.dataSource : quartzDataSource
+  org.quartz.threadPool.threadCount : 25
+  org.quartz.scheduler.instanceName : beta_archive_scheduler
+  org.quartz.jobStore.isClustered : True
+  org.quartz.scheduler.instanceId : AUTO
+
+  # JobStore: JDBC jobStoreTX
+  org.quartz.dataSource.quartzDataSource.driver : com.mysql.jdbc.Driver
+  org.quartz.dataSource.quartzDataSource.URL : jdbc:mysql://localhost:3306/workflowconnector
+  org.quartz.dataSource.quartzDataSource.user : root
+  org.quartz.dataSource.quartzDataSource.password :
+  org.quartz.dataSource.quartzDataSource.maxConnections : 8
+
+swagger:
+  resourcePackage: com.boomerang.workflowconnector.internal.resource

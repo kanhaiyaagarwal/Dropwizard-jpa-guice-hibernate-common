@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings version="1.0" xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd "
+>
+    <!--ProjectRepository-->
+    <named-query name="ProjectRepository.findByName">
+        <query>
+            <![CDATA[
+            from Project p
+            where p.name = :name
+            ]]>
+        </query>
+    </named-query>
+
+    <!--ProjectFlowNodeRepository-->
+    <named-query name="ProjectFlowNodeRepository.findByName">
+        <query>
+            <![CDATA[
+            from ProjectFlowNode p
+            where p.name = :name
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="ProjectFlowNodeRepository.findByNameAndProjectId">
+        <query>
+            <![CDATA[
+            from ProjectFlowNode p
+            where p.name = :name
+            and p.projectId = :projectId
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="ProjectFlowNodeRepository.getIdListByNameListAndProjectId">
+        <query>
+            <![CDATA[
+            select p.id
+            from ProjectFlowNode p
+            where p.name in :names
+            and p.projectId = :projectId
+            ]]>
+        </query>
+    </named-query>
+
+    <!--ProjectExecutionRepository-->
+    <named-query name="ProjectExecutionRepository.findAllByProjectIdAndStatus">
+        <query>
+            <![CDATA[
+            from ProjectExecutionJob p
+            where p.projectId = :projectId
+            and p.status = :status
+            ]]>
+        </query>
+    </named-query>
+
+
+    <!--NodeExecutionRepository-->
+    <named-query name="NodeExecutionRepository.findAllByProjectIdAndStatus">
+        <query>
+            <![CDATA[
+            from NodeExecutionJob p
+            where p.projectId = :projectId
+            and p.status = :status
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="NodeExecutionRepository.findAllByProjectExecIdAndStatus">
+        <query>
+            <![CDATA[
+            from NodeExecutionJob p
+            where p.projectExecId = :projectExecId
+            and p.status = :status
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="NodeExecutionRepository.findByProjectExecIdAndNodeId">
+        <query>
+            <![CDATA[
+            from NodeExecutionJob p
+            where p.projectExecId = :projectExecId
+            and p.nodeId = :nodeId
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="NodeExecutionRepository.findByExternalExecId">
+        <query>
+            <![CDATA[
+            from NodeExecutionJob p
+            where p.externalExecId = :externalExecId
+            ]]>
+        </query>
+    </named-query>
+    <named-query name="NodeExecutionRepository.findCountOfNotCompletedNodeFromList">
+        <query>
+            <![CDATA[
+            select count(*)
+            from NodeExecutionJob p
+            where p.projectExecId = :projectExecId
+            and p.nodeId in :nodeId
+            and p.status != :status
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="NodeExecutionRepository.findRootsByProjectExecId">
+        <query>
+            <![CDATA[
+            from NodeExecutionJob p
+            where p.projectExecId = :projectExecId
+            and p.isRoot = :isRoot
+            ]]>
+        </query>
+    </named-query>
+
+    <!--EdgeMappingRepository-->
+    <named-query name="EdgeMappingRepository.findAllByParentId">
+        <query>
+            <![CDATA[
+            from EdgeMapping p
+            where p.parentId = :parentId
+            ]]>
+        </query>
+    </named-query>
+    <named-query name="EdgeMappingRepository.findAllByChildId">
+        <query>
+            <![CDATA[
+            from EdgeMapping p
+            where p.childId = :childId
+            ]]>
+        </query>
+    </named-query>
+    <named-query name="EdgeMappingRepository.findAllByProjectId">
+        <query>
+            <![CDATA[
+            from EdgeMapping p
+            where p.projectId = :projectId
+            ]]>
+        </query>
+    </named-query>
+    <named-query name="EdgeMappingRepository.getParentIdListByChildId">
+        <query>
+            <![CDATA[
+            select p.parentId
+            from EdgeMapping p
+            where p.childId = :childId
+            ]]>
+        </query>
+    </named-query>
+
+    <!--EdgeMappingInstanceRepository-->
+
+    <named-query name="EdgeMappingInstanceRepository.findAllByProjectIdandExecId">
+        <query>
+            <![CDATA[
+            from EdgeMappingInstance p
+            where p.projectId = :projectId
+            and p.projectExecId = :projectExecId
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="EdgeMappingInstanceRepository.findAllByExecId">
+        <query>
+            <![CDATA[
+            from EdgeMappingInstance p
+            where p.projectExecId = :projectExecId
+            ]]>
+        </query>
+    </named-query>
+
+    <named-query name="EdgeMappingInstanceRepository.getParentIdListByChildIdandExecId">
+        <query>
+            <![CDATA[
+            select p.parentId
+            from EdgeMappingInstance p
+            where p.projectExecId = :projectExecId
+            and p.childId = :childId
+            ]]>
+        </query>
+    </named-query>
+    <named-query name="EdgeMappingInstanceRepository.getChildIdListByParentIdandExecId">
+        <query>
+            <![CDATA[
+            select p.childId
+            from EdgeMappingInstance p
+            where p.projectExecId = :projectExecId
+            and p.parentId = :parentId
+            ]]>
+        </query>
+    </named-query>
+
+</entity-mappings>

@@ -10,7 +10,7 @@
     <url>http://maven.apache.org</url>
     <properties>
         <dropwizard.version>0.9.2</dropwizard.version>
-            <hibernate.version>4.3.5.Final</hibernate.version>
+        <hibernate.version>4.3.5.Final</hibernate.version>
     </properties>
     <dependencies>
         <dependency>
@@ -23,6 +23,16 @@
             <artifactId>dropwizard-migrations</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
+        <!--<dependency>-->
+        <!--<groupId>io.dropwizard</groupId>-->
+        <!--<artifactId>dropwizard-client</artifactId>-->
+        <!--<version>${dropwizard.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>io.dropwizard</groupId>-->
+        <!--<artifactId>dropwizard-hibernate</artifactId>-->
+        <!--<version>0.9.2</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
@@ -51,55 +61,70 @@
             <artifactId>hsqldb</artifactId>
             <version>2.3.1</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>io.dropwizard</groupId>-->
-            <!--<artifactId>dropwizard-hibernate</artifactId>-->
-            <!--<version>${dropwizard.version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>com.netflix.governator</groupId>-->
-            <!--<artifactId>governator</artifactId>-->
-            <!--<version>1.14.2</version>-->
-        <!--</dependency>-->
 
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>0.6.3</version>
+        </dependency>
         <dependency>
             <groupId>com.hubspot.dropwizard</groupId>
             <artifactId>dropwizard-guice</artifactId>
             <version>0.8.4.0</version>
             <exclusions>
                 <exclusion>
-                    <groupId>com.google.inject</groupId>
-                    <artifactId>guice_servlet</artifactId>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-jackson</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-jersey</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-jetty</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-lifecycle</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.dropwizard</groupId>
+                    <artifactId>dropwizard-servlets</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.google.inject.extensions</groupId>
-            <artifactId>guice-multibindings</artifactId>
-            <version>4.0</version>
+            <groupId>com.fiestacabin.dropwizard.quartz</groupId>
+            <artifactId>dropwizard-quartz</artifactId>
+            <version>0.7.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.inject.extensions</groupId>
             <artifactId>guice-persist</artifactId>
             <version>4.0</version>
         </dependency>
-
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.9</version>
+            <groupId>org.jadira.usertype</groupId>
+            <artifactId>usertype.extended</artifactId>
+            <version>5.0.0.GA</version>
         </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.37</version>
         </dependency>
 
-        <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
-            <version>2.0</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>javax.ws.rs</groupId>-->
+        <!--<artifactId>javax.ws.rs-api</artifactId>-->
+        <!--<version>2.0</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
@@ -123,6 +148,47 @@
             <artifactId>log4j-over-slf4j</artifactId>
             <version>1.7.12</version>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.jettison</groupId>
+            <artifactId>jettison</artifactId>
+            <version>1.1</version>
+        </dependency>
+
+        <!--Unirest dependencies-->
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
+        </dependency>
+
+        <!--Swagger dependencies-->
+
+        <dependency>
+            <groupId>io.federecio</groupId>
+            <artifactId>dropwizard-swagger</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
 
     </dependencies>
     <build>

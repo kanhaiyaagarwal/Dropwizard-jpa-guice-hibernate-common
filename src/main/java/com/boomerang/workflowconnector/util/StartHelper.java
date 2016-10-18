@@ -1,13 +1,16 @@
 package com.boomerang.workflowconnector.util;
 
-import com.boomerang.workflowconnector.WorkflowConfiguration;
-import com.boomerang.workflowconnector.WorkflowModule;
+import com.boomerang.workflowconnector.config.WorkflowConfiguration;
+import com.boomerang.workflowconnector.config.WorkflowModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import io.dropwizard.configuration.ConfigurationFactory;
+import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.jackson.Jackson;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -20,12 +23,12 @@ import java.util.Properties;
 /**
  * Created by kanhaiya on 21/09/16.
  */
+@Slf4j
 public class StartHelper {
 
-    private static Injector injector = null;
-    public static final String JPA_UNIT = "d1";
-    public static final String CONFIG_FILENAME_TEST = "src/main/resources/config.yaml";
-    private static String configFilename;
+    @Getter
+    public static final String JPA_UNIT = "WorkflowPersistanceUnit";
+    private static String configFilename = "src/main/resources/config.yaml";
 
     public static String getConfigFilename() {
         return configFilename;
@@ -36,48 +39,26 @@ public class StartHelper {
     }
 
     public static Properties createPropertiesFromConfiguration(WorkflowConfiguration localConfiguration) {
-        List<String> propertiesList = new ArrayList<>();
-        propertiesList.add("hibernate.dialect");
-        propertiesList.add("hibernate.show_sql");
-        propertiesList.add("hibernate.hbm2ddl.auto");
-        propertiesList.add("hibernate.dialect");
-        propertiesList.add("hibernate.archive.autodetection");
-        propertiesList.add("hibernate.connection.driver_class");
-        propertiesList.add("hibernate.username");
-        propertiesList.add("hibernate.password");
+        DataSourceFactory dbConfig = localConfiguration.getDataSourceFactory();
 
         Properties properties = new Properties();
-        properties.setProperty("javax.persistence.jdbc.url", localConfiguration.getDataSourceFactory().getUrl());
-        properties.setProperty("javax.persistence.jdbc.user", localConfiguration.getDataSourceFactory().getUser());
-        for (String p : propertiesList) {
-            String val = localConfiguration.getDataSourceFactory().getProperties().get(p);
-            if (val != null) {
-                properties.setProperty(p, val);
-            }
-        }
+        properties.put("hibernate.properties", dbConfig.getProperties());
+        properties.put("hbm2ddl.auto", dbConfig.getProperties().get("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.dialect", dbConfig.getProperties().get("hibernate.dialect"));
+        properties.put("hibernate.connection.driver_class", dbConfig.getDriverClass());
+        properties.put("hibernate.connection.url", dbConfig.getUrl());
+        properties.put("hibernate.connection.username", dbConfig.getUser());
+        properties.put("hibernate.connection.password", dbConfig.getPassword());
+        properties.put("hibernate.connection.pool_size", "15");
+        properties.put("hibernate.cache.use_second_level_cache", "false");
+        properties.put("hibernate.cache.use_query_cache", "false");
+        properties.put("hibernate.connection.isolation", "2");
+//        properties.put("hibernate.show_sql", "true");
+//        properties.put("hibernate.format_sql", "true");
+//        properties.put("org.hibernate.envers.audit_table_suffix", "_history");
+//        properties.put("org.hibernate.envers.audit_table_prefix", "");
 
         return properties;
-    }
-
-    public static Injector getInjector() {
-        if (injector == null) {
-            throw new RuntimeException("call StartHelper.init() first!");
-        }
-        return injector;
-    }
-
-    public static void init() {
-        init(CONFIG_FILENAME_TEST);
-    }
-
-    public static void init(String localConfigFilename) {
-        configFilename = localConfigFilename;
-        WorkflowConfiguration configuration = createConfiguration(localConfigFilename);
-        Properties properties = createPropertiesFromConfiguration(configuration);
-        JpaPersistModule jpaPersistModule = new JpaPersistModule(JPA_UNIT);
-        jpaPersistModule.properties(properties);
-        injector = Guice.createInjector(jpaPersistModule, new WorkflowModule());
-        injector.getInstance(PersistService.class).start();
     }
 
     public static WorkflowConfiguration createConfiguration(String configFilename) {
@@ -94,13 +75,8 @@ public class StartHelper {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        System.out.println(ToStringBuilder.reflectionToString(configuration, ToStringStyle.MULTI_LINE_STYLE));
-        System.out.println(ToStringBuilder.reflectionToString(configuration.getDataSourceFactory(), ToStringStyle.MULTI_LINE_STYLE));
         return configuration;
     }
 
-    public static <T> T getInstance(Class<T> c) {
-        return getInjector().getInstance(c);
-    }
 
 }
