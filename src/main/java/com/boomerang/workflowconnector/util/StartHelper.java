@@ -78,5 +78,15 @@ public class StartHelper {
         return configuration;
     }
 
+    public static Properties createTestProperties(){
 
+                Properties properties = new Properties();
+        properties.put("hibernate.hbm2ddl.auto", "create-drop");
+        properties.put("hibernate.connection.driver_class", "org.hsqldb.jdbc.JDBCDriver");
+        properties.put("hibernate.connection.url","jdbc:hsqldb:mem:." );
+        properties.put("hibernate.connection.username", "SA");
+        properties.put("hibernate.connection.password", "");
+
+        return properties;
+    }
 }

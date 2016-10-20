@@ -1,7 +1,7 @@
 package com.boomerang.workflowconnector.internal.actions.execution;
 
-import com.boomerang.workflowconnector.internal.repositories.impl.EdgeMappingInstanceRepository;
-import com.boomerang.workflowconnector.internal.repositories.impl.NodeExecutionRepository;
+import com.boomerang.workflowconnector.internal.repositories.IEdgeMappingInstanceRepository;
+import com.boomerang.workflowconnector.internal.repositories.INodeExecutionRepository;
 import com.google.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +14,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class CheckParentNodeDependenciesAction {
-    private final EdgeMappingInstanceRepository repository;
-    private final NodeExecutionRepository nodeExecutionRepository;
+    private final IEdgeMappingInstanceRepository edgeMappingInstanceRepository;
+    private final INodeExecutionRepository nodeExecutionRepository;
     private Long execId;
     private Long nodeId;
 
@@ -26,7 +26,7 @@ public class CheckParentNodeDependenciesAction {
     }
 
     public Boolean invoke(){
-        List<Long> parentNodeList = repository.getParentIdListByChildIdandExecId(nodeId, execId);
+        List<Long> parentNodeList = edgeMappingInstanceRepository.getParentIdListByChildIdandExecId(nodeId, execId);
         int count = nodeExecutionRepository.findCountOfNotCompletedNodeFromList(parentNodeList,execId);
         return count>0?false:true;
     }

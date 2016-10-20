@@ -6,25 +6,19 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 /**
- * Created by kanhaiya on 28/09/16.
+ * Created by kanhaiya on 18/10/16.
  */
 @Data
 @JsonSerialize
 @FieldDefaults(level= AccessLevel.PRIVATE)
-public class ProjectDagResponse {
+public class CreateQuartzScheduleRequest {
 
-    Long id;
+    @NotNull
+    String projectName;
 
-    String name;
-
-    Boolean active;
-
-    String description;
-
-    Integer version = 1;
-
-    List<ProjectFlowNodeResponse> projectFlowNodeRequestList;
+    @NotNull
+    String schedule;
 }

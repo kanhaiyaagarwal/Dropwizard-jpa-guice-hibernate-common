@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Data
 @JsonSerialize
-@JsonSnakeCase
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class ProjectFlowNodeResponse {
     Long id;

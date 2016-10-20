@@ -1,9 +1,13 @@
 package com.boomerang.workflowconnector.internal.actions.execution;
 
 import com.boomerang.workflowconnector.jobs.CreateAndExecuteRootNodeJob;
+import com.boomerang.workflowconnector.requestresponse.CreateQuartzScheduleRequest;
 import lombok.RequiredArgsConstructor;
 import org.quartz.*;
 
+import javax.ws.rs.BadRequestException;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -17,27 +21,30 @@ public class CreateQuartzJobForExecution {
     private String projectName;
     private String schedule;
 
-    public CreateQuartzJobForExecution withParameters(String projectName, String schedule){
-        this.projectName = projectName;
-        this.schedule = schedule;
+    public CreateQuartzJobForExecution withRequest(CreateQuartzScheduleRequest request){
+        this.projectName = request.getProjectName();
+        this.schedule = request.getSchedule();
         return this;
     }
-    public void invoke() throws SchedulerException {
-        scheduler.start();
-        JobDetail job = newJob(CreateAndExecuteRootNodeJob.class)
-                .withIdentity(projectName + schedule, "group1")
-                .build();
-        JobDataMap jobDataMap=  job.getJobDataMap();
-        jobDataMap.put("projectName", projectName);
-//todo: put in schedule in the api
-        Trigger trigger = newTrigger()
-                .withIdentity(projectName + schedule, "group1")
-                .startNow()
-                .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(4)
-                        .withRepeatCount(2))
-                .build();
+    //    todo: handle exceptions for cron format and already exisiting triggers
+    public void invoke()  {
+        try {
+            JobDetail job = newJob(CreateAndExecuteRootNodeJob.class)
+                    .withIdentity(projectName + schedule, "group1")
+                    .build();
+            JobDataMap jobDataMap=  job.getJobDataMap();
+            jobDataMap.put("projectName", projectName);
+            Trigger trigger = newTrigger()
+                    .withIdentity(projectName + schedule, "group1")
+                    .startNow()
+                    .withSchedule(cronSchedule(schedule))
+                    .build();
 
-        scheduler.scheduleJob(job, trigger);
+
+            scheduler.start();
+            scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            throw new BadRequestException(e);
+        }
     }
 }

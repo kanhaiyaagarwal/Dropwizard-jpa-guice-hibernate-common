@@ -1,7 +1,7 @@
 package com.boomerang.workflowconnector.internal.actions.defination;
 
 import com.boomerang.workflowconnector.internal.model.EdgeMapping;
-import com.boomerang.workflowconnector.internal.repositories.impl.EdgeMappingRepository;
+import com.boomerang.workflowconnector.internal.repositories.IEdgeMappingRepository;
 import com.google.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class CreateEdgeMappingsAction {
-    private final EdgeMappingRepository repository;
+    private final IEdgeMappingRepository repository;
     private Long childId;
     private List<Long> parentIdList;
     private Long projectId;

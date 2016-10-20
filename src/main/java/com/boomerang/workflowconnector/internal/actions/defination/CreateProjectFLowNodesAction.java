@@ -1,7 +1,7 @@
 package com.boomerang.workflowconnector.internal.actions.defination;
 
 import com.boomerang.workflowconnector.internal.model.ProjectFlowNode;
-import com.boomerang.workflowconnector.internal.repositories.impl.ProjectFlowNodeRepository;
+import com.boomerang.workflowconnector.internal.repositories.IProjectFlowNodeRepository;
 import com.boomerang.workflowconnector.requestresponse.ProjectFlowNodeRequest;
 import com.boomerang.workflowconnector.util.MapToStringConvertor;
 import com.google.inject.Inject;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class CreateProjectFLowNodesAction {
 
-    private final ProjectFlowNodeRepository repository;
+    private final IProjectFlowNodeRepository repository;
     private List<ProjectFlowNodeRequest> requestList;
     private final Provider<CreateEdgeMappingsAction> createEdgeMappingsActionProvider;
     private Long projectId;

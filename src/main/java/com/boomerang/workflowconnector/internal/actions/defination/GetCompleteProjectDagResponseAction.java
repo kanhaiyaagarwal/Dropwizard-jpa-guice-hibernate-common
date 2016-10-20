@@ -2,7 +2,7 @@ package com.boomerang.workflowconnector.internal.actions.defination;
 
 import com.boomerang.workflowconnector.internal.model.Project;
 import com.boomerang.workflowconnector.internal.model.ProjectFlowNode;
-import com.boomerang.workflowconnector.internal.repositories.impl.EdgeMappingRepository;
+import com.boomerang.workflowconnector.internal.repositories.IEdgeMappingRepository;
 import com.boomerang.workflowconnector.requestresponse.ProjectDagResponse;
 import com.boomerang.workflowconnector.requestresponse.ProjectFlowNodeResponse;
 import com.boomerang.workflowconnector.util.StringToHashMapConvertor;
@@ -21,7 +21,7 @@ import java.util.List;
 public class GetCompleteProjectDagResponseAction {
 
     private final Provider<GetProjectAction> getProjectActionProvider;
-    private final EdgeMappingRepository edgeMappingRepository;
+    private final IEdgeMappingRepository edgeMappingRepository;
     private final ModelMapper modelMapper;
     private ProjectDagResponse response;
 //    private final Provider<>

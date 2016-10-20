@@ -1,7 +1,7 @@
 package com.boomerang.workflowconnector.internal.actions.execution;
 
 import com.boomerang.workflowconnector.internal.model.NodeExecutionJob;
-import com.boomerang.workflowconnector.internal.repositories.impl.NodeExecutionRepository;
+import com.boomerang.workflowconnector.internal.repositories.INodeExecutionRepository;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class ExecuteRootNodeAction {
 
-    private final NodeExecutionRepository repository;
+    private final INodeExecutionRepository repository;
     private Long execId;
     private final Provider<ExecuteNodeAction> executeNodeActionProvider;
 

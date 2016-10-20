@@ -18,7 +18,6 @@ import java.util.List;
  */
 @Data
 @JsonSerialize
-@JsonSnakeCase
 @FieldDefaults(level= AccessLevel.PRIVATE)
 public class ProjectFlowNodeRequest {
 
@@ -38,5 +37,5 @@ public class ProjectFlowNodeRequest {
 
     LocalTime startBy;
 
-    List<String> ParentNodeNameList;
+    List<String> parentNodeNameList;
 }

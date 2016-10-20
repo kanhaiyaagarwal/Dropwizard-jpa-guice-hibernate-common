@@ -1,12 +1,10 @@
 package com.boomerang.workflowconnector.internal.actions.execution;
 
-import com.boomerang.workflowconnector.internal.repositories.impl.EdgeMappingInstanceRepository;
-import com.boomerang.workflowconnector.internal.repositories.impl.NodeExecutionRepository;
+import com.boomerang.workflowconnector.internal.repositories.IEdgeMappingInstanceRepository;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
@@ -17,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class ExecuteAllChildNodeAction {
 //    private final NodeExecutionRepository repository;
-    private final EdgeMappingInstanceRepository repository;
+    private final IEdgeMappingInstanceRepository repository;
     private Long execId;
     private Long nodeId;
     private final Provider<ExecuteNodeAction> executeNodeActionProvider;

@@ -24,6 +24,8 @@ import java.util.EnumSet;
 /**
  * Created by kanhaiya on 20/09/16.
  */
+//todo: write tests
+//todo: Handle exceptions
 @Slf4j
 public class WorkflowApplication extends Application<WorkflowConfiguration> {
 

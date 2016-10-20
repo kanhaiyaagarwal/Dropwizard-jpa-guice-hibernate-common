@@ -4,9 +4,9 @@ import com.boomerang.workflowconnector.internal.actions.defination.GetAllEdgeMap
 import com.boomerang.workflowconnector.internal.actions.defination.GetProjectAction;
 import com.boomerang.workflowconnector.internal.enums.Status;
 import com.boomerang.workflowconnector.internal.model.*;
-import com.boomerang.workflowconnector.internal.repositories.impl.EdgeMappingInstanceRepository;
-import com.boomerang.workflowconnector.internal.repositories.impl.NodeExecutionRepository;
-import com.boomerang.workflowconnector.internal.repositories.impl.ProjectExecutionRepository;
+import com.boomerang.workflowconnector.internal.repositories.IEdgeMappingInstanceRepository;
+import com.boomerang.workflowconnector.internal.repositories.INodeExecutionRepository;
+import com.boomerang.workflowconnector.internal.repositories.IProjectExecutionRepository;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +23,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class CreateExecutionProjectDag {
-    private final ProjectExecutionRepository projectExecutionRepository;
-    private final EdgeMappingInstanceRepository edgeMappingInstanceRepository;
-    private final NodeExecutionRepository nodeExecutionRepository;
+    private final IProjectExecutionRepository projectExecutionRepository;
+    private final IEdgeMappingInstanceRepository edgeMappingInstanceRepository;
+    private final INodeExecutionRepository nodeExecutionRepository;
     private final Provider<GetProjectAction> getProjectActionProvider;
     private final Provider<GetAllEdgeMappingAction> getAllEdgeMappingActionProvider;
     private Project project;

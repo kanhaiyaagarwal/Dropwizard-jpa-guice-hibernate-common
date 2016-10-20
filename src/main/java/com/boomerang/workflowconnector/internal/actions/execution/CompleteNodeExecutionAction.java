@@ -1,15 +1,13 @@
 package com.boomerang.workflowconnector.internal.actions.execution;
 
-import com.boomerang.workflowconnector.config.AzkabanClientConfiguration;
 import com.boomerang.workflowconnector.internal.enums.Status;
 import com.boomerang.workflowconnector.internal.model.NodeExecutionJob;
-import com.boomerang.workflowconnector.internal.repositories.impl.NodeExecutionRepository;
+import com.boomerang.workflowconnector.internal.repositories.INodeExecutionRepository;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 
 import javax.ws.rs.BadRequestException;
 import java.util.Optional;
@@ -23,7 +21,7 @@ import java.util.Optional;
 public class CompleteNodeExecutionAction {
 
 //    todo: check why transaction not working on resource level
-    private final NodeExecutionRepository repository;
+    private final INodeExecutionRepository repository;
     private Long execId;
     private Long nodeId;
     private final Provider<ExecuteAllChildNodeAction> executeAllChildNodeActionProvider;

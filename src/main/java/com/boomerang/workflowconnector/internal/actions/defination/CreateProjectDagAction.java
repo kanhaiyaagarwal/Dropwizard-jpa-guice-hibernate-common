@@ -1,7 +1,7 @@
 package com.boomerang.workflowconnector.internal.actions.defination;
 
 import com.boomerang.workflowconnector.internal.model.Project;
-import com.boomerang.workflowconnector.internal.repositories.impl.ProjectRepository;
+import com.boomerang.workflowconnector.internal.repositories.IProjectRepository;
 import com.boomerang.workflowconnector.requestresponse.ProjectFlowNodeRequest;
 import com.boomerang.workflowconnector.requestresponse.ProjectRequest;
 import com.google.inject.Inject;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class CreateProjectDagAction {
 
-    private final ProjectRepository projectRepository;
+    private final IProjectRepository projectRepository;
     private final ModelMapper modelMapper;
     private ProjectRequest request;
     private final Provider<CreateProjectFLowNodesAction> createProjectFLowNodeActionProvider;

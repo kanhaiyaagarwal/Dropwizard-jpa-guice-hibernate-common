@@ -1,7 +1,7 @@
 package com.boomerang.workflowconnector.internal.actions.defination;
 
 import com.boomerang.workflowconnector.internal.model.Project;
-import com.boomerang.workflowconnector.internal.repositories.impl.ProjectRepository;
+import com.boomerang.workflowconnector.internal.repositories.IProjectRepository;
 import com.google.inject.Inject;
 import lombok.RequiredArgsConstructor;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class GetProjectAction {
 
-    private final ProjectRepository repository;
+    private final IProjectRepository repository;
     private Optional<Project> projectOptional;
 
     public GetProjectAction withName(String name){

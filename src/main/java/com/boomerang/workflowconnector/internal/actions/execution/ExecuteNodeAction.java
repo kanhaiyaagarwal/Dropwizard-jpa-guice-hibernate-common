@@ -3,7 +3,7 @@ package com.boomerang.workflowconnector.internal.actions.execution;
 import com.boomerang.workflowconnector.config.AzkabanClientConfiguration;
 import com.boomerang.workflowconnector.internal.enums.Status;
 import com.boomerang.workflowconnector.internal.model.NodeExecutionJob;
-import com.boomerang.workflowconnector.internal.repositories.impl.NodeExecutionRepository;
+import com.boomerang.workflowconnector.internal.repositories.INodeExecutionRepository;
 import com.boomerang.workflowconnector.util.StringToHashMapConvertor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -13,11 +13,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
-import org.modelmapper.ModelMapper;
 
 import javax.ws.rs.BadRequestException;
-import java.util.HashMap;
 import java.util.Optional;
 
 /**
@@ -29,7 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class ExecuteNodeAction {
 
-    private final NodeExecutionRepository repository;
+    private final INodeExecutionRepository repository;
     private Long execId;
     private Long nodeId;
     private final AzkabanClientConfiguration azkabanClientConfiguration;
@@ -41,6 +38,7 @@ public class ExecuteNodeAction {
         return this;
     }
 
+//todo: Exception handling here needs ot be fixed
     public void invoke(){
 
         if(checkParentNodeDependenciesActionProvider.get().withParameters(execId,nodeId).invoke())

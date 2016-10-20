@@ -4,15 +4,17 @@ import com.boomerang.workflowconnector.internal.actions.execution.CreateExecutio
 import com.boomerang.workflowconnector.internal.actions.execution.CreateQuartzJobForExecution;
 import com.boomerang.workflowconnector.internal.actions.execution.ExecuteNodeAction;
 import com.boomerang.workflowconnector.internal.repositories.impl.ProjectFlowNodeRepository;
+import com.boomerang.workflowconnector.requestresponse.CreateQuartzScheduleRequest;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -35,7 +37,6 @@ public class SchedularResource {
 
     @POST
     @Path("/execute/{name}")
-    @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Create Execution DAG ")
     public Response executeProjectDag(@PathParam("name") String name){
         createExecutionProjectDagProvider.get().withName(name).invoke();
@@ -52,12 +53,12 @@ public class SchedularResource {
     }
 
     @POST
-    @Path("/project/{projectName}/schedule/{schedule}")
-    @ApiOperation(value = "Schedule DAG Execution ")
+    @ApiOperation(value = "Schedule DAG Execution")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response schedule(@PathParam("projectName") String projectName, @PathParam("schedule") String schedule)
+    public Response schedule(@ApiParam("projectName and cron scheduler")
+                                 @Valid CreateQuartzScheduleRequest request)
             throws SchedulerException {
-        createQuartzJobForExecutionProvider.get().withParameters(projectName,schedule).invoke();
+        createQuartzJobForExecutionProvider.get().withRequest(request).invoke();
         return status(Response.Status.ACCEPTED).build();
     }
 }
